@@ -1,0 +1,22 @@
+.item-card {
+  margin: 1%;
+  padding-top: 0.5%;
+  padding-bottom: 0.5%;
+  padding-left: 7px;
+  padding-right: 7px;
+  -ms-flex-preferred-size: 16%;
+      flex-basis: 16%;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  border: 2px solid #6d6d6d;
+  border-radius: 5px;
+  -webkit-box-shadow: 3px 5px 6px 3px #19191965;
+          box-shadow: 3px 5px 6px 3px #19191965;
+  background-color: #effffb83;
+}
+
+.item-image {
+  width: 100%;
+}
+/*# sourceMappingURL=items.css.map */

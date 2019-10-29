@@ -1,0 +1,17 @@
+.item-card {
+	margin: 1%;
+    padding-top: 0.5%;
+	padding-bottom: 0.5%;
+	padding-left: 7px; 
+	padding-right: 7px;
+	flex-basis: 16%;
+	align-items: center;
+	border: 2px solid #6d6d6d;
+	border-radius: 5px;
+	box-shadow: 3px 5px 6px 3px #19191965;
+	background-color: #effffb83;
+}
+
+.item-image {
+	width: 100%;
+}

@@ -160,19 +160,44 @@
             <div class="card">
                 <!-- <h4 class="card-header">Último item adicionado: <small class="text-muted">Teste</small></h4> -->
                 
-                <div class="container-fluid py-0 pr-0" style="height: 87vh;">
+                <div class="container-fluid py-0 pr-0 my-2" style="height: 87vh;">
                     <!-- Form de Inserção de Itens -->
-                    <form class="form-inline">
-                        <div class="col-12">
-                            <div class="form-group">
-                                <label class="control-label col-2" for="input-titulo">Título</label>
-                                <div class="col-10">
-                                    <input type="text" class="form-control" placeholder="Nome do livro." name="input-titulo">
+                    <form class="form row">
+                        <!-- Form Column 1 -->
+                        <div class="col px-0 mr-sm-2">
+                            <div class="form-group row">
+                                <label for="inputEmail3" class="col-sm-2 col-form-label">Email</label>
+                                <div class="col-sm-10">
+                                    <input type="email" class="form-control" id="inputEmail3" placeholder="Email">
+                                </div>
+                                </div>
+                                <div class="form-group row">
+                                <label for="inputPassword3" class="col-sm-2 col-form-label">Password</label>
+                                <div class="col-sm-10">
+                                    <input type="password" class="form-control" id="inputPassword3" placeholder="Password">
                                 </div>
                             </div>
+                            <div class="form-group" style="width: 100%;">
+                                <label class="col-3 text-left" for="input-titulo"><span class="text-left">Título: </span></label>
+                                <input type="text" class="form-control col-9" placeholder="Nome do livro." name="input-titulo">
+                            </div>
+                            <div class="form-group" style="width: 100%;">
+                                <label class="col-3 text-left" for="input-titulo-original"><span class="text-left">Título Original: </span></label>
+                                <input type="text" class="form-control col-9" placeholder="Nome do livro." name="input-titulo-original">
+                            </div>
                         </div>
+                        <!-- End of Form Column 1 -->
 
-                        <button type="submit" class="btn btn-primary">Submit</button>
+                        <!-- Form Column 2 -->
+                        <div class="col px-0 mr-sm-2">
+                            <div class="form-group" style="width: 100%;">
+                                <label class="control-label col-1 mr-sm-2" for="input-titulo">Título</label>
+                                <input type="text" class="form-control col-10" placeholder="Nome do livro." name="input-titulo">
+                            </div>
+                        </div>
+                        <!-- End of Form Column 2 -->
+
+                        <!-- <button type="submit" class="btn btn-primary">Submit</button> -->
                     </form>
                 </div>
             </div>

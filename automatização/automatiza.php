@@ -20,7 +20,7 @@
         {
             $tmp = $array[$i];
             echo $tmp;
-            $queryText = "INSERT INTO genero (nome) VALUES ('$tmp');";
+            $queryText = "INSERT INTO condicao (nome) VALUES ('$tmp');";
             $query = mysqli_query($connect, $queryText);
 
             if (!$query) 

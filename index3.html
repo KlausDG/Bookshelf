@@ -149,7 +149,7 @@
 
                 <div class="container-fluid my-2" style="height: 87vh;">
                     <!-- FORM DE INSERÇÃO DE ITENS -->
-                    <form class="form row" action="register_book.php" method="POST">
+                    <form class="form row" name="book-registration" action="register_book.php" method="POST" onsubmit="return ValidateBooksRegistration();">
                         <div class="card col-12 p-0">
                             <!-- CAMPOS PRINCIPAIS HEAD -->
                             <a class="card-header collapse-link" data-toggle="collapse" href="#multiCollapseExample1"
@@ -168,7 +168,8 @@
                                 <div class="form-group col-4">
                                     <label for="input-titulo"><strong>Titulo Original</strong></label>
                                     <input type="text" class="custom-form form-control form-control-sm"
-                                        id="titulo-original" name="input-titulo-original" required>
+                                        id="titulo-original" name="input-titulo-original">
+                                    <div class="text-muted small">(Campo Opcional)</div>
                                 </div>
 
                                 <div class="form-group col-4">
@@ -182,28 +183,23 @@
                                     <label for="input-titulo"><strong>Lingua</strong></label>
                                     <select class="custom-form form-control custom-select custom-select-sm dropdown"
                                         id="lingua" name="input-lingua" required>
-                                        <!-- <option value="none"></option> -->
-                                        <!-- <option value="lg-pt">Portugês</option>
-                                        <option value="lg-en">Inglês</option>
-                                        <option value="lg-es">Espanhol</option> -->
+                                        <!-- ESPAÇO PREENCHIDO VIA AJAX -->
                                     </select>
                                 </div>
 
                                 <div class="form-group col-2">
                                     <label for="input-titulo"><strong>Categoria</strong></label>
                                     <select class="custom-form form-control custom-select custom-select-sm dropdown"
-                                        id="categoria" name="input-categoria" required>
-                                        <!-- <option value="none" selected></option>
-                                        <option value="cat-hq">HQ</option>
-                                        <option value="cat-livro">Livro</option>
-                                        <option value="cat-manga">Manga</option> -->
+                                        id="categoria" name="input-categoria" onchange="ToggleCatFormInput(this);" required>
+                                        <!-- ESPAÇO PREENCHIDO VIA AJAX -->
                                     </select>
                                 </div>
 
                                 <div class="form-group col-8" id="input-ilustrador-div" style="display: none;">
                                     <label for="input-titulo"><strong>Ilustrador</strong></label>
                                     <input type="text" class="custom-form form-control custom-select-sm"
-                                        id="input-ilustrador" name="input-ilustrador" required>
+                                        id="input-ilustrador" name="input-ilustrador">
+                                    <div class="text-muted small">(Campo Opcional)</div>
                                 </div>
 
                                 <div class="form-group col-12">
@@ -214,6 +210,8 @@
                             </div>
                             <!-- FIM DOS CAMPOS PRINCIPAIS -->
 
+
+
                             <!-- CARACTERÍSTICAS GERAIS HEAD -->
                             <a class="card-header collapse-link" data-toggle="collapse" href="#multiCollapseExample2"
                                 aria-expanded="false" aria-controls="multiCollapseExample2">
@@ -223,80 +221,67 @@
                             <div class="card-body row py-1 pr-3 collapse" id="multiCollapseExample2">
                                 <div class="form-group col-12 ">
                                     <label for="input-genero"><strong>Generos</strong></label>
-                                    <div class="custom-form form-control form-control-sm">
-                                        <label class="col-1"><input type="checkbox" class=""
-                                                name="input-genero">
-                                            Teste</label>
-                                        <label class="col-1"><input type="checkbox" class=""
-                                                name="input-genero">
-                                            Teste</label>
-                                        <label class="col-1"><input type="checkbox" class=""
-                                                name="input-genero">
-                                            Teste</label>
-                                        <label class="col-1"><input type="checkbox" class=""
-                                                name="input-genero">
-                                            Teste</label>
-                                        <label class="col-1"><input type="checkbox" class=""
-                                                name="input-genero">
-                                            Teste</label>
-                                        <label class="col-1"><input type="checkbox" class=""
-                                                name="input-genero">
-                                            Teste</label>
-                                        <label class="col-1"><input type="checkbox" class=""
-                                                name="input-genero">
-                                            Teste</label>
-                                        <label class="col-1"><input type="checkbox" class=""
-                                                name="input-genero">
-                                            Teste</label>
-                                        <label class="col-1"><input type="checkbox" class=""
-                                                name="input-genero">
-                                            Teste</label>
-                                        <label class="col-1"><input type="checkbox" class=""
-                                                name="input-genero">
-                                            Teste</label>
+                                    <div class="custom-form form-control form-control-sm" id="genero">
+                                        <!-- ESPAÇO PREENCHIDO VIA AJAX -->
                                     </div>
                                 </div>
 
                                 <div class="form-group col-2">
-                                    <label for="input-titulo"><strong>Editora</strong></label>
+                                    <label for="input-editora"><strong>Editora</strong></label>
                                     <input type="text" class="custom-form form-control form-control-sm"
-                                        id="editora" name="input-editora" onkeyup="pesqref(this);">
+                                        id="editora" name="input-editora" onkeyup="pesqref(this);" required>
                                     <div class="position-fixed pt-1" id="editora-list"></div>
                                 </div>
 
                                 <div class="form-group col-2">
-                                    <label for="input-titulo"><strong>Data de Publicação</strong></label>
+                                    <label for="input-datapub"><strong>Data de Publicação</strong></label>
                                     <input class="custom-form form-control form-control-sm input-date"
-                                        name="input-titulo">
+                                        name="input-datapub">
+                                    <div class="text-muted small">(Campo Opcional)</div>
                                 </div>
 
                                 <div class="form-group col-1">
-                                    <label for="input-titulo"><strong>N. de Páginas</strong></label>
+                                    <label for="input-paginas"><strong>N. de Páginas</strong></label>
                                     <input type="text" class="custom-form form-control form-control-sm"
-                                        id="titulo" name="input-titulo">
+                                        id="paginas" name="input-paginas">
+                                    <div class="text-muted small">(Campo Opcional)</div>
                                 </div>
 
                                 <div class="form-group col-1">
-                                    <label for="input-titulo"><strong>R$ de Capa</strong></label>
+                                    <label for="input-preco-capa"><strong>R$ de Capa</strong></label>
                                     <input type="text" class="custom-form form-control form-control-sm"
-                                        id="titulo" name="input-titulo">
+                                        id="preco-capa" name="input-preco-capa" onblur="NumberInputFormatter(this);">
+                                    <div class="text-muted small">(Campo Opcional)</div>
                                 </div>
+
                                 <div class="form-group col-2">
-                                    <label for="input-titulo"><strong>Coleção</strong></label>
+                                    <label for="input-colecao"><strong>Coleção</strong></label>
                                     <input type="text" class="custom-form form-control form-control-sm"
                                         id="colecao" name="input-colecao" onkeyup="pesqref(this);">
-                                    <div class="position-fixed pt-1" id="editora-list"></div>
+                                    <div class="position-fixed pt-1" id="colecao-list"></div>
+                                    <div class="text-muted small">(Campo Opcional)</div>
                                 </div>
+
                                 <div class="form-group col-4">
-                                    <label for="input-titulo"><strong>Link da Amazon</strong></label>
+                                    <label for="input-link-amaz"><strong>Link da Amazon</strong></label>
                                     <input type="text" class="custom-form form-control form-control-sm"
-                                        id="titulo" name="input-titulo">
+                                        id="titulo" name="input-link-amaz">
+                                    <div class="text-muted small">(Campo Opcional)</div>
                                 </div>
 
                                 <div class="form-group col-6">
-                                    <label for="input-cover-file"><strong>Foto da Capa</strong></label>
+                                    <label for="input-foto-capa"><strong>Foto da Capa</strong></label>
                                     <input type="file" class="custom-form form-control form-control-sm"
-                                        id="input-cover-file" name="input-cover-file">
+                                        id="input-foto-capa" name="input-foto-capa">
+                                    <div class="text-muted small">(Campo Opcional)</div>
+                                </div>
+
+                                <div class="form-group col-2">
+                                    <label for="input-tipo-capa"><strong>Tipo de Capa</strong></label>
+                                    <select class="custom-form form-control custom-select custom-select-sm dropdown"
+                                        id="tipo_capa" name="input-tipo-capa" required>
+                                        <!-- ESPAÇO PREENCHIDO VIA AJAX -->
+                                    </select>
                                 </div>
                             </div>
                             <!-- FIM DAS CARACTERÍSTICAS GERAIS -->
@@ -312,35 +297,31 @@
                                 <div class="form-group col-1">
                                     <label for="input-valor-pago"><strong>R$ Pago</strong></label>
                                     <input type="text" class="custom-form form-control form-control-sm"
-                                        id="input-valor-pago" name="input-valor-pago">
+                                        id="input-valor-pago" name="input-valor-pago" onblur="NumberInputFormatter(this);">
+                                    <div class="text-muted small">(Campo Opcional)</div>
                                 </div>
 
                                 <div class="form-group col-2">
                                     <label for="input-condicao"><strong>Condição</strong></label>
                                     <select class="custom-form form-control custom-select custom-select-sm dropdown"
                                         id="condicao" name="input-condicao">
-                                        <!-- <option value="none"></option>
-                                        <option value="lg-pt">Lacrado</option>
-                                        <option value="lg-en">Muito Bom</option>
-                                        <option value="lg-es">Bom</option>
-                                        <option value="lg-es">Médio</option>
-                                        <option value="lg-es">Ruim</option>
-                                        <option value="lg-es">Péssimo</option> -->
+                                        <!-- ESPAÇO PREENCHIDO VIA AJAX -->
                                     </select>
                                 </div>
 
                                 <div class="form-group col-6">
-                                    <label for="input-titulo"><strong>Foto do Produto</strong></label>
+                                    <label for="input-foto-prod"><strong>Foto do Produto</strong></label>
                                     <input type="file" class="custom-form form-control form-control-sm"
-                                        id="input-cover-file" name="input-cover-file">
+                                        id="input-foto-prod" name="input-foto-prod">
+                                    <div class="text-muted small">(Campo Opcional)</div>
                                 </div>
 
                                 <div class="form-group col-3 ">
-                                    <label for="input-genero"><strong>A Venda?</strong></label>
+                                    <label for="input-venda"><strong>A Venda?</strong></label>
                                     <div class="custom-form form-control d-flex form-control-sm">
-                                        <label class="col"><input type="checkbox" class="" name="input-genero">
+                                        <label class="col"><input type="radio" name="input-venda" value="sim">
                                             Sim</label>
-                                        <label class="col"><input type="checkbox" class="" name="input-genero">
+                                        <label class="col"><input type="radio" name="input-venda" value="nao" checked>
                                             Não</label>
                                     </div>
                                 </div>
@@ -349,27 +330,27 @@
                                     <label for="input-status-leitura"><strong>Estatus de
                                             Leitura</strong></label>
                                     <select class="custom-form form-control custom-select custom-select-sm dropdown"
-                                        id="status_leitura" name="input-status-leitura">
-                                        <!-- <option value="none"></option>
-                                        <option value="lido">Lido</option>
-                                        <option value="lendo">Lendo</option>
-                                        <option value="n-lido">Não Lido</option> -->
+                                        id="status_leitura" name="input-status-leitura" onchange="ToggleReadFormInput(this);">
+                                        <!-- ESPAÇO PREENCHIDO VIA AJAX -->
                                     </select>
+                                    <div class="text-muted small">(Campo Opcional)</div>
                                 </div>
 
                                 <div class="form-group col-2 mr-2" id="input-dta-i-div" style="display: none;">
-                                    <label for="input-titulo"><strong>Data Inicial</strong></label>
+                                    <label for="input-datai"><strong>Data Inicial</strong></label>
                                     <input class="custom-form form-control form-control-sm input-date"
-                                        name="input-titulo">
+                                        name="input-datai" id="input-datai">
+                                    <div class="text-muted small">(Campo Opcional)</div>
                                 </div>
 
                                 <div class="form-group col-2 mr-2" id="input-dta-f-div" style="display: none;">
-                                    <label for="input-titulo"><strong>Data Final</strong></label>
+                                    <label for="input-dataf"><strong>Data Final</strong></label>
                                     <input class="custom-form form-control form-control-sm input-date"
-                                        name="input-titulo">
+                                        name="input-dataf" id="input-dataf">
+                                    <div class="text-muted small">(Campo Opcional)</div>
                                 </div>
                             </div>
-                            <!-- FIC DAS CARACTERÍSTICAS PESSOAIS -->
+                            <!-- FIM DAS CARACTERÍSTICAS PESSOAIS -->
                         </div>
                         <button type="submit"
                             class="btn btn-success fixed-bottom m-3 rounded-circle fa fa-chevron-right fa-lg"
@@ -382,7 +363,10 @@
     </div>
 
     <script>
-        $('.input-date').datepicker({
+        $('#input-datai').datepicker({
+            uiLibrary: 'bootstrap4'
+        });
+        $('#input-dataf').datepicker({
             uiLibrary: 'bootstrap4'
         });
     </script>

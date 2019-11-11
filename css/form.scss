@@ -29,7 +29,19 @@
   color: #132644;
 }
 
-
+#genero {
+	display: flex;
+	flex-wrap: wrap;
+  justify-content: space-between;
+  flex-direction: column;
+  height: calc(20px * 10 + 4rem);
+}
+#genero div {
+	flex: 1 0 20px;
+  max-width: 31%;
+  height: 20px;
+  margin-bottom: 1rem;
+}
 
 //testing
 .tt-hint {
@@ -55,3 +67,5 @@
     color: #111;
     background-color: #F1F1F1;
 }
+
+

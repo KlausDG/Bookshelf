@@ -1,6 +1,3 @@
-Lacrado
-Muito Bom
-Bom
-Médio
-Ruim
-Péssimo
+Capa Cartão
+Capa Comum
+Capa Dura

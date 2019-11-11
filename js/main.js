@@ -1,45 +1,35 @@
-// function openNav() {
-// 	document.getElementById("mySidenav").style.width = "250px";
-// 	document.body.style.backgroundColor = "rgba(0,0,0,0.25)";
-// }
+//REGEX FUNCTIONS
 
-// function closeNav() {
-// 	document.getElementById("mySidenav").style.width = "0";
-// 	document.body.style.backgroundColor = "#eee";
-// }
+function CheckTextRegex(textField) {
+  var textRegex = /[^a-zA-Z ]/i;
+  return textRegex.test(textField);
+}
 
-// function showDropdown() {
-// 	document.getElementById("myDropdown").classList.toggle("show");
-// }
-
-// window.onclick = function(event) {
-// 	if (!event.target.matches(".dropbtn")) {
-// 		var dropdowns = document.getElementsByClassName("dropdown-content");
-// 		var i;
-// 		for (i = 0; i < dropdowns.length; i++) {
-// 			var openDropdown = dropdowns[i];
-// 			if (openDropdown.classList.contains("show")) {
-// 				openDropdown.classList.remove("show");
-// 			}
-// 		}
-// 	}
-// };
-
-// var modal = document.getElementById("id01");
-
-// // When the user clicks anywhere outside of the modal, close it
-// window.onclick = function(event) {
-// 	if (event.target == modal) {
-// 		modal.style.display = "none";
-// 	}
-// };
+function CheckEmailRegex(email) {
+  var emailRegex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+  return emailRegex.test(String(email).toLowerCase());
+}
 
 //FORM FUNCTIONS
+
+//NUMBER FORMATTER
+function NumberInputFormatter(element) {
+
+  if (element.value == "") {
+    element.value = 0;
+  } else {
+    element.value = parseFloat(element.value.replace(/,/g, ""))
+    .toFixed(2)
+    .toString()
+    .replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    element.value = this.value.replace(/,/g, "");
+  }
+};
 
 function ToggleCatFormInput(select) {
   if (select) {
     var div = document.getElementById("input-ilustrador-div");
-    if (select.value == "cat-livro" || select.value == "none") {
+    if (select.value == "livro" || select.value == "none") {
       if (div.style.display == "block") {
         div.style.display = "none";
       }
@@ -59,7 +49,7 @@ function ToggleReadFormInput(select) {
     if (select.value == "n-lido" || select.value == "none") {
       dta_i.style.display = "none";
       dta_f.style.display = "none";
-    } else if (select.value == "lendo"){
+    } else if (select.value == "lendo") {
       dta_i.style.display = "block";
       dta_f.style.display = "none";
     } else {

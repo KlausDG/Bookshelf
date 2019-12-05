@@ -29,7 +29,7 @@ function NumberInputFormatter(element) {
 function ToggleCatFormInput(select) {
   if (select) {
     var div = document.getElementById("input-ilustrador-div");
-    if (select.value == "livro" || select.value == "none") {
+    if (select.value == "Livro" || select.value == "none") {
       if (div.style.display == "block") {
         div.style.display = "none";
       }
@@ -46,7 +46,7 @@ function ToggleReadFormInput(select) {
     var dta_i = document.getElementById("input-dta-i-div");
     var dta_f = document.getElementById("input-dta-f-div");
 
-    if (select.value == "n-lido" || select.value == "none") {
+    if (select.value == "Não Lido" || select.value == "none") {
       dta_i.style.display = "none";
       dta_f.style.display = "none";
     } else if (select.value == "lendo") {

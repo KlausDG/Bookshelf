@@ -14,7 +14,7 @@
     if ((empty($username) || empty($password)))
     {
         echo '<script type="text/javascript">';
-        echo 'window.location.href = "index.php";';
+        echo 'window.location.href = "view-index.html";';
         echo '</script>';
     }
 ?>

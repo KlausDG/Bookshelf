@@ -84,7 +84,7 @@
                             <span class="menu-collapsed filtro-btn" value="Mangás">Mangás</span>
                         </a>
                     </div>
-                    <a href="#" class="bg-dark list-group-item list-group-item-action">
+                    <a href="view-book-registration.php" class="bg-dark list-group-item list-group-item-action">
                         <div class="d-flex w-100 justify-content-start align-items-center">
                             <span class="fa fa-plus fa-fw mr-3"></span>
                             <span class="menu-collapsed">Adicionar Item</span>

@@ -1,4 +1,6 @@
 //REGEX FUNCTIONS
+const cartDOM = document.querySelector('.cart');
+const cartOverlay = document.querySelector('.cart-overlay');
 
 function CheckTextRegex(textField) {
   var textRegex = /[^a-zA-Z ]/i;
@@ -19,9 +21,9 @@ function NumberInputFormatter(element) {
     element.value = 0;
   } else {
     element.value = parseFloat(element.value.replace(/,/g, ""))
-    .toFixed(2)
-    .toString()
-    .replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+      .toFixed(2)
+      .toString()
+      .replace(/\B(?=(\d{3})+(?!\d))/g, ",");
     element.value = this.value.replace(/,/g, "");
   }
 };
@@ -68,7 +70,7 @@ $("#body-row .collapse").collapse("hide");
 $("#collapse-icon").addClass("fa-angle-double-left");
 
 // Collapse click
-$("[data-toggle=sidebar-colapse]").click(function() {
+$("[data-toggle=sidebar-colapse]").click(function () {
   SidebarCollapse();
 });
 
@@ -89,3 +91,16 @@ function SidebarCollapse() {
   // Collapse/Expand icon
   $("#collapse-icon").toggleClass("fa-angle-double-left fa-angle-double-right");
 }
+
+//Cart functions
+
+function showCart() {
+  cartOverlay.classList.add('transparentBcg');
+  cartDOM.classList.add('showCart');
+}
+
+function closeCart() {
+  cartOverlay.classList.remove('transparentBcg');
+  cartDOM.classList.remove('showCart');
+}
+

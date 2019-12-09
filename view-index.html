@@ -15,12 +15,13 @@
         integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
         crossorigin="anonymous"></script>
     <script src="https://code.jquery.com/jquery-3.1.0.js"></script>
-    <script src="js/main.js"></script>
+    <script src="https://kit.fontawesome.com/bf81b87bc0.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
         integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
     <link rel="stylesheet" type="text/css" href="css/items.css">
     <link rel="stylesheet" type="text/css" href="css/public.css">
+    <link rel="stylesheet" type="text/css" href="css/style.css">
     <title>Bric do Klaus</title>
 
     <style>
@@ -31,109 +32,181 @@
 </head>
 
 <body>
-
-    <div class="container-fluid p-0">
-        <!-- Bootstrap row -->
-        <div class="row" id="body-row">
-            <!-- MAIN -->
-            <div class="col">
-                <nav class="navbar navbar-expand-lg navbar-light bg-light">
-                    <div class="d-flex align-items-center mr-auto">
-                        <img src="images/Logo.png" style="width: 230px;">
-                        <div class="btn-group" role="group" aria-label="Basic example">
-                            <button class="btn btn-secondary menu-btn" id="filtro_todos" value="Todos">Todos</button>
-                            <button class="btn btn-secondary menu-btn" id="filtro_hqs" value="HQs">HQs</button>
-                            <button class="btn btn-secondary menu-btn" id="filtro_livros" value="Livros">Livros</button>
-                            <button class="btn btn-secondary menu-btn" id="filtro_mangas" value="Mangás">Mangás</button>
-                        </div>
-                    </div>
-                    <div class="login-btn float-right">
-                        <button class="btn btn-primary" data-toggle="modal"
-                            data-target="#login-modal">Login</button>
-                    </div>
-                </nav>
-
-                <!-- Modal -->
-                <div class="modal fade" id="login-modal" tabindex="-1" role="dialog" aria-hidden="true">
-                    <div class="modal-dialog modal-dialog-centered" role="document">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title" id="login-title">Área Restrita</h5>
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span>
-                                </button>
-                            </div>
-                            <div class="modal-body">
-                                <form action="controller-user-validation.php" method="POST">
-                                    <div class="form-group">
-                                        <label for="input-username">Node do Usuário</label>
-                                        <input type="text" class="form-control" id="input-username" name="username">
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="input-password">Senha</label>
-                                        <input type="password" class="form-control" id="input-password" name="password"
-                                            placeholder="Password">
-                                    </div>
-                                    <div class="modal-footer">
-                                        <button type="button" class="btn btn-secondary"
-                                            data-dismiss="modal">Close</button>
-                                        <input type="submit" class="btn btn-primary" value="Enviar">
-                                    </div>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="card">
-                    <h4 class="card-header" id="cabecalho"></h4>
-                    <div class="card-body py-0 pr-0" style="height: 85vh;">
-                        <div class="row card-container" id="mostra">
-                            <!-- Item Cards Display Here -->
-
-                        </div>
-                    </div>
-                </div>
-
+    <div class="container-fluid main-container">
+        <!-- HEADER -->
+        <nav class="navbar header">
+            <div class="nav-item-one">
+                <img src="images/logo.png" style="width: 200px;">
             </div>
-            <!--Main Col END -->
-        </div><!-- body-row END -->
-        <div class="footer">
-            <div class="text-dark mt-2" style="font-size: 20px; text-align: center;">
-                <p>© Klaus D. Galm</p>
+            <div class="btn-group btn-container nav-item-two" role="group" aria-label="Basic example">
+                <button class="btn btn-light menu-btn" id="filtro_todos" value="Todos"><span>Todos</span></button>
+                <button class="btn btn-light menu-btn" id="filtro_hqs" value="HQs"><span>HQs</span></button>
+                <button class="btn btn-light menu-btn" id="filtro_livros" value="Livros"><span>Livros</span></button>
+                <button class="btn btn-light menu-btn" id="filtro_mangas" value="Mangás"><span>Mangás</span></button>
             </div>
+            <div class="nav-item-three d-flex">
+                <button class="btn btn-light" id="cart-btn" style="margin-right: 3rem; width: 10rem;"
+                    onclick="showCart();"><img src="images/shopping-cart.png" alt="shopping cart"
+                        style="height: 50px;"></button>
+                <button class="btn btn-primary" data-toggle="modal" data-target="#login-modal"
+                    style="width: 10rem;">Login</button>
+                <!-- <a href="" style="background-image: url(images/shopping-cart.png); width: 200px; height: 100%;"></a> -->
+            </div>
+        </nav>
+        <!-- FIM HEADER -->
+
+        <!-- MAIN -->
+        <div class="cabecalho" style="padding: 1rem 0 1rem 2rem;">
+            <h4 id="cabecalho-text"></h4>
         </div>
 
-        <script type="text/javascript">
-            $(document).ready(function () {
-                $('.menu-btn').click(function () {
-                    $('#cabecalho').html($(this).attr("value"));
+        <div class="item-container" id="mostra">
 
-                    $.ajax({
-                        url: "controller-items.php",
-                        method: "POST",
-                        data: {
-                            value: $(this).attr("value")
-                        },
-                        success: function (data) {
-                            document.getElementById("mostra").innerHTML = data;
-                        }
-                    });
-                });
+        </div>
 
-                $('#cabecalho').html("Todos");
+        <!-- FOOOTER -->
+        <footer class="pt-2">
+            <div class="text-dark mt-2 " style="font-size: 20px; text-align: center;">
+                <p>© Klaus D. Galm</p>
+            </div>
+        </footer>
+        <!-- FIM FOOOTER -->
+    </div>
+    <!-- FIM MAIN -->
+
+    <!-- LOGIN Modal -->
+    <div class="modal fade" id="login-modal" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="login-title">Área Restrita</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form action="controller-user-validation.php" method="POST">
+                        <div class="form-group">
+                            <label for="input-username">Node do Usuário</label>
+                            <input type="text" class="form-control" id="input-username" name="username">
+                        </div>
+                        <div class="form-group">
+                            <label for="input-password">Senha</label>
+                            <input type="password" class="form-control" id="input-password" name="password"
+                                placeholder="Password">
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            <input type="submit" class="btn btn-primary" value="Enviar">
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- FIM LOGIN Modal -->
+
+    <!-- CARRINHO -->
+    <div class="cart-overlay">
+        <div class="cart">
+            <span class="close-cart" onclick="closeCart();">
+                <i class="fa fa-window-close"></i>
+            </span>
+            <h2>Seu Carrinho</h2>
+            <!-- HARDCODED ITEM -->
+            <div class="cart-content">
+                <!-- cart item -->
+                
+                <!-- end of cart item -->
+            </div>
+            <div class="card-footer">
+                <h3>total : $ <span class="cart-total">0</span></h3>
+                <button class="clear-cart cart-btn">clear cart</button>
+            </div>
+        </div>
+    </div>
+    <!-- FIM CARRINHO -->
+
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+            //Mostra todo os itens quando carregar a pagina.
+            $('#cabecalho-text').html("Todos");
+            $.ajax({
+                url: "controller-items.php",
+                method: "POST",
+                data: {
+                    value: "SELECT * FROM livro;"
+                },
+                success: function (data) {
+                    $('#mostra').html(data);
+                }
+            });
+
+            //Filtra os itens pelo click nos botões.
+            $('.menu-btn').click(function () {
+                $('#cabecalho-text').html($(this).attr("value"));
+
                 $.ajax({
                     url: "controller-items.php",
                     method: "POST",
                     data: {
-                        value: "SELECT * FROM livro;"
+                        value: $(this).attr("value")
                     },
                     success: function (data) {
-                        document.getElementById("mostra").innerHTML = data;
+                        $('#mostra').html(data);
                     }
                 });
             });
-        </script>
+
+        });
+                function addCart(element) {
+                    console.log("Clickou");
+                    $.ajax({
+                        url: "controller-cart-items.php",
+                        method: "POST",
+                        data: {
+                            id: $(element).attr("data-product-id"),
+                            title: $(element).attr("data-product-title"),
+                            price: $(element).attr("data-product-price"),
+                            image: $(element).attr("data-product-image")
+                        },
+                        success: function (data) {
+                            console.log(data);
+                            $('.cart-content').html(data);
+                        }
+                    });
+                };
+
+        //Exibe os detalhes do item.
+        function detalhesAjax(element) {
+            target = element.parentNode.parentNode;
+            var id = target.getAttribute('id');
+            $.ajax({
+                url: "controller-item-details.php",
+                method: "POST",
+                data: {
+                    value: id
+                },
+                success: function (data) {
+                    var result = data.split("*");
+                    console.log(result[1]);
+                    $('#cabecalho-text').html(result[1]);
+                    $('#mostra').html(result[0]);
+                }
+            });
+        }
+
+        // const cartBtn = document.getElementById('cart-btn');
+        // const closeCartBtn = document.querySelector('.close-cart');
+        // const clearCartBtn = document.querySelector('.clear-cart');
+
+        // const cartItems = document.querySelector('.cart-items');
+        // const cartTotal = document.querySelector('.cart-total');
+        
+        // const productsDOM = document.querySelector('.products-center');
+    </script>
+        <script src="js/main.js"></script>
 
 </body>
 

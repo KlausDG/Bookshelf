@@ -1,4 +1,13 @@
 @import url("https://fonts.googleapis.com/css?family=Montserrat");
+:root {
+  --primaryColor: #f09d51;
+  --mainWhite: #fff;
+  --mainBlack: #222;
+  --mainGrey: #ececec;
+  --mainSpacing: 0.1rem;
+  --mainTransition: all 0.3s linear;
+}
+
 /*-------------------------------- END ----*/
 #body-row {
   margin-left: 0;

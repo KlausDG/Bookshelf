@@ -45,11 +45,11 @@
                 <button class="btn btn-light menu-btn" id="filtro_mangas" value="Mangás"><span>Mangás</span></button>
             </div>
             <div class="nav-item-three d-flex">
-                <button class="btn btn-light" id="cart-btn" style="margin-right: 3rem; width: 10rem;"
+                <button class="btn btn-light" id="cart-btn" style="margin-right: 3rem; width: 7rem;"
                     onclick="showCart();"><img src="images/shopping-cart.png" alt="shopping cart"
-                        style="height: 50px;"></button>
+                        style="height: 40px;"></button>
                 <button class="btn btn-primary" data-toggle="modal" data-target="#login-modal"
-                    style="width: 10rem;">Login</button>
+                    style="width: 7rem;">Login</button>
                 <!-- <a href="" style="background-image: url(images/shopping-cart.png); width: 200px; height: 100%;"></a> -->
             </div>
         </nav>
@@ -58,6 +58,26 @@
         <!-- MAIN -->
         <div class="cabecalho" style="padding: 1rem 0 1rem 2rem;">
             <h4 id="cabecalho-text"></h4>
+            <div class="d-flex align-items-center ml-auto" id="filtro-adv">
+                <h5 style="margin: 0 15px 0 0;">Odernar por: </h5>
+                <!-- <form action="" method="GET" class="d-flex align-items-center"> -->
+                <!-- <input type="hidden" name="item-show-method" id="item-show-method" value=""> -->
+                <select class="custom-form form-control custom-select custom-select-sm dropdown" id="lingua"
+                    name="input-lingua">
+                    <option value="a-z">A-Z</option>
+                    <option value="z-a">Z-A</option>
+                    <option value="menorVal">Menor Valor</option>
+                    <option value="maiorVal">Maior Valor</option>
+                </select>
+                <button class="btn btn-link" id="item-thumb">
+                    <i class="fas fa-th fa-lg" style="height: 100%; width: 100%;"></i>
+                </button>
+                <button class="btn btn-link" id="item-list">
+                    <i class="fas fa-th-list fa-lg" style="height: 100%; width: 100%;"></i>
+                </button>
+                <!-- </form> -->
+
+            </div>
         </div>
 
         <div class="item-container" id="mostra">
@@ -116,7 +136,7 @@
             <!-- HARDCODED ITEM -->
             <div class="cart-content">
                 <!-- cart item -->
-                
+
                 <!-- end of cart item -->
             </div>
             <div class="card-footer">
@@ -130,13 +150,14 @@
     <script type="text/javascript">
 
         $(document).ready(function () {
-            //Mostra todo os itens quando carregar a pagina.
+            // Mostra todo os itens quando carregar a pagina.
             $('#cabecalho-text').html("Todos");
             $.ajax({
                 url: "controller-items.php",
                 method: "POST",
                 data: {
-                    value: "SELECT * FROM livro;"
+                    value: "SELECT * FROM livro;",
+                    // type: $('#item-show-method').attr("value")
                 },
                 success: function (data) {
                     $('#mostra').html(data);
@@ -151,7 +172,8 @@
                     url: "controller-items.php",
                     method: "POST",
                     data: {
-                        value: $(this).attr("value")
+                        value: $(this).attr("value"),
+                        type: "thumb"
                     },
                     success: function (data) {
                         $('#mostra').html(data);
@@ -159,24 +181,75 @@
                 });
             });
 
+            $('#item-thumb').click(function () {
+                $.ajax({
+                    url: "controller-items.php",
+                    method: "POST",
+                    data: {
+                        value: "SELECT * FROM livro;",
+                        type: "thumb"
+                    },
+                    success: function (data) {
+                        $('#mostra').html(data);
+                    }
+                });
+            });
+
+
+            $('#item-list').click(function () {
+                $.ajax({
+                    url: "controller-items.php",
+                    method: "POST",
+                    data: {
+                        value: "SELECT * FROM livro;",
+                        type: "list"
+                    },
+                    success: function (data) {
+                        $('#mostra').html(data);
+                    }
+                });
+            });
+
+
+
         });
-                function addCart(element) {
-                    console.log("Clickou");
-                    $.ajax({
-                        url: "controller-cart-items.php",
-                        method: "POST",
-                        data: {
-                            id: $(element).attr("data-product-id"),
-                            title: $(element).attr("data-product-title"),
-                            price: $(element).attr("data-product-price"),
-                            image: $(element).attr("data-product-image")
-                        },
-                        success: function (data) {
-                            console.log(data);
-                            $('.cart-content').html(data);
-                        }
-                    });
-                };
+        //Muda o modo de exibição
+        function mudaList() {
+            elements = document.querySelectorAll('.product-entry-thumb');
+            console.log(elements);
+            for (let i in elements) {
+                i.classList.add('product-entry-list')
+                i.classList.remove('product-entry-thumb');
+            }
+        }
+
+        function mudaThumb() {
+            elements = document.querySelectorAll('.product-entry-list');
+
+            for (let i in elements) {
+                i.classList.add('product-entry-thumb');
+                i.classList.remove('product-entry-list')
+            }
+        }
+
+        //Adiciona itens ao carrinho
+        function addCart(element) {
+            console.log("Clickou");
+            $.ajax({
+                url: "controller-cart-items.php",
+                method: "POST",
+                data: {
+                    id: $(element).attr("data-product-id"),
+                    title: $(element).attr("data-product-title"),
+                    price: $(element).attr("data-product-price"),
+                    image: $(element).attr("data-product-image")
+                },
+                success: function (data) {
+                    console.log(data);
+                    $('.cart-content').append(data);
+                }
+            });
+        };
 
         //Exibe os detalhes do item.
         function detalhesAjax(element) {
@@ -197,16 +270,17 @@
             });
         }
 
+
         // const cartBtn = document.getElementById('cart-btn');
         // const closeCartBtn = document.querySelector('.close-cart');
         // const clearCartBtn = document.querySelector('.clear-cart');
 
         // const cartItems = document.querySelector('.cart-items');
         // const cartTotal = document.querySelector('.cart-total');
-        
+
         // const productsDOM = document.querySelector('.products-center');
     </script>
-        <script src="js/main.js"></script>
+    <script src="js/main.js"></script>
 
 </body>
 

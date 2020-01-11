@@ -1,4 +1,5 @@
 @import url('https://fonts.googleapis.com/css?family=Montserrat');
+@import 'conf';
 
 html,
 body {
@@ -16,8 +17,7 @@ body {
 }
 
 .main-container {
-    display: flex;
-    flex-flow: column;
+    @include flex(column);
     height: 100%;
     padding: 0;
 }
@@ -26,28 +26,38 @@ body {
 .header {
     //Header container
     background-color: #f8f9fa;
-    border-bottom: 2px solid rgba(218, 216, 216, 0.541);
+    border-bottom: 2px solid $color_main_background;
     flex: 0 1 auto;
-}
 
-.header .nav-item-one img {
-    //Logo
-    width: 200px;
+    .nav-item-one {
+        img {
+            //Logo
+            width: 200px;
+        }
+    }
 }
 
 //END HEADER STYLE
+
 /*---------------------*/
+
 //MAIN STYLE
-.cabecalho {
+#cabecalho {
     display: flex;
-    flex: 0 1 auto;
     align-items: center;
     height: 4rem;
     background-color: #f8f9fa;
+
+    #filtro-adv {
+        display: grid;
+        align-items: center;
+        grid-template-columns: auto auto auto auto;
+        grid-column-gap: 0.5rem;
+    }
 }
 
 .item-container {
-    background-color: rgba(218, 216, 216, 0.541);
+    background-color: $color_main_background;
     padding: 1rem;
     flex: 1 1 auto;
 }
@@ -66,8 +76,44 @@ footer {
 //SIDEBAR STYLE
 #sidebar-container {
     min-height: 100vh;
-    background-color: #132644;
+    background-color: $color_sidenav_background;
     padding: 0;
+
+    .list-group {
+        a {
+            height: 50px;
+            color: white;
+
+            .bg-dark {
+                background-color: $color_sidenav_background !important;
+            }
+        }
+
+        li {
+            .list-group-item {
+                background-color: $color_sidenav_background;
+            }
+        }
+
+        .sidebar-submenu {
+            font-size: 0.9rem;
+
+            a {
+                height: 45px;
+                padding-left: 30px;
+            }
+
+            .sidebar-separator-title {
+                background-color: $color_sidenav_background;
+                height: 35px;
+            }
+
+            .sidebar-separator {
+                background-color: $color_sidenav_background;
+                height: 25px;
+            }
+        }
+    }
 }
 
 .sidebar-expanded {
@@ -76,46 +122,6 @@ footer {
 
 .sidebar-collapsed {
     width: 100px;
-}
-
-/* ----------| Menu item*/
-#sidebar-container .list-group a {
-    height: 50px;
-    color: white;
-}
-
-/* ----------| Submenu item*/
-#sidebar-container .list-group li.list-group-item {
-    background-color: #132644;
-}
-
-#sidebar-container .list-group .sidebar-submenu a {
-    height: 45px;
-    padding-left: 30px;
-}
-
-.sidebar-submenu {
-    font-size: 0.9rem;
-}
-
-/* ----------| Separators */
-.sidebar-separator-title {
-    background-color: #132644;
-    height: 35px;
-}
-
-.sidebar-separator {
-    background-color: #132644;
-    height: 25px;
-}
-
-.logo-separator {
-    background-color: #132644;
-    height: 60px;
-}
-
-a.bg-dark {
-    background-color: #132644 !important;
 }
 
 //END OF SIDEBAR STYLE

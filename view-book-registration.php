@@ -37,10 +37,8 @@
 </head>
 
 <body>
-
     <div class="container-fluid p-0 ">
         <div class="row" id="body-row">
-
             <!-- SIDEBAR -->
             <div id="sidebar-container" class="sidebar-expanded fixed-top">
                 <!-- FOTO E NOME DO USUÁRIO -->

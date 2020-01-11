@@ -30,42 +30,18 @@
 }
 
 #genero {
-	display: flex;
-	flex-wrap: wrap;
+  display: flex;
+  flex-wrap: wrap;
   justify-content: space-between;
   flex-direction: column;
   height: calc(20px * 10 + 4rem);
 }
-#genero div {
-	flex: 1 0 20px;
-  max-width: 31%;
-  height: 20px;
-  margin-bottom: 1rem;
+
+#genero {
+  div {
+    flex: 1 0 20px;
+    max-width: 31%;
+    height: 20px;
+    margin-bottom: 1rem;
+  }
 }
-
-//testing
-.tt-hint {
-    border: 2px solid #CCCCCC;
-    border-radius: 8px 8px 8px 8px;
-    font-size: 24px;
-    height: 45px;
-    line-height: 30px;
-    outline: medium none;
-    padding: 8px 12px;
-    width: 400px;
-}
-
-.tt-dropdown-menu {
-    width: 400px;
-    margin-top: 5px;
-    padding: 8px 12px;
-    background-color: #fff;
-    border: 1px solid #ccc;
-    border: 1px solid rgba(0, 0, 0, 0.2);
-    border-radius: 8px 8px 8px 8px;
-    font-size: 18px;
-    color: #111;
-    background-color: #F1F1F1;
-}
-
-

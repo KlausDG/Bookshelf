@@ -1,0 +1,80 @@
+//VARIÁVEIS
+$main_color_1: #48d0d2;
+$main_color_2: #76d254;
+$color_black: #191919;
+$color_whte: #fff;
+$color_grey: #ececec;
+$color_divider: #dad8d8;
+$color_danger: red;
+$color_sidenav_background: #132644;
+$color_main_background: rgba(218, 216, 216, 0.541);
+$transition: all 0.3s linear;
+$spacing: 0.1rem;
+
+
+//FUNÇÕES
+@mixin size ($width, $height) {
+    width: $width;
+    height: $height;
+}
+
+@mixin backgroundImage ($width, $height, $alignCenter: false) {
+    background-size: $width $height;
+    background-repeat: no-repeat;
+
+    @if $alignCenter {
+        background-position: center;
+    }
+}
+
+@mixin radius ($value) {
+    -webkit-border-radius: $value;
+    -moz-border-radius: $value;
+    -ms-border-radius: $value;
+    border-radius: $value;
+}
+
+@mixin posAbsolute($top, $right, $bot, $left) {
+    position: absolute;
+
+    @if $top {
+        top: $top;
+    }
+
+    @if $right {
+        right: $right;
+    }
+
+    @if $bot {
+        bottom: $bot;
+    }
+
+    @if $left {
+        left: $left;
+    }
+}
+
+@mixin posFixed($top, $right, $bot, $left) {
+    position: fixed;
+
+    @if $top {
+        top: $top;
+    }
+
+    @if $right {
+        right: $right;
+    }
+
+    @if $bot {
+        bottom: $bot;
+    }
+
+    @if $left {
+        left: $left;
+    }
+}
+
+@mixin flex($dir) {
+    display: flex;
+    flex-direction: $dir;
+}

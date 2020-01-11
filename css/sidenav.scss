@@ -1,44 +1,52 @@
 //Variables
 $bgColor: #191919;
 $fontColor: #a1a1a1;
-$maxWidth: 900px;
 
 .sidenav {
-	display: flex;
-	flex-wrap: wrap;
-	height: 100vh; /* 100% Full-height */
-	width: 0; /* 0 width - change this with JavaScript */
-	position: fixed; /* Stay in place */
-	z-index: 1; /* Stay on top */
-	top: 0; /* Stay at the top */
-	left: 50;
-	background-color: $bgColor; /* Black*/
-	overflow-x: hidden; /* Disable horizontal scroll */
-	padding-top: 60px; /* Place content 60px from the top */
-	transition: 0.5s; /* 0.5 second transition effect to slide in the sidenav */
-	flex-direction: column;
-}
+    display: flex;
+    flex-wrap: wrap;
+    height: 100vh;
+    /* 100% Full-height */
+    width: 0;
+    /* 0 width - change this with JavaScript */
+    position: fixed;
+    /* Stay in place */
+    z-index: 1;
+    /* Stay on top */
+    top: 0;
+    /* Stay at the top */
+    left: 50;
+    background-color: $bgColor;
+    /* Black*/
+    overflow-x: hidden;
+    /* Disable horizontal scroll */
+    padding-top: 60px;
+    /* Place content 60px from the top */
+    transition: 0.5s;
+    /* 0.5 second transition effect to slide in the sidenav */
+    flex-direction: column;
 
-.sidenav a {
-	padding: 8px 8px 8px 32px;
-	text-decoration: none;
-	font-size: 30px;
-	color: $fontColor;
-	transition: 0.3s;
-}
+    a {
+        padding: 8px 8px 8px 32px;
+        text-decoration: none;
+        font-size: 30px;
+        color: $fontColor;
+        transition: 0.3s;
+    }
 
-.sidenav-link {
-	margin: 10px;
-}
+    a:hover {
+        color: #f1f1f1;
+    }
 
-.sidenav a:hover {
-	color: #f1f1f1;
-}
+    .sidenav-link {
+        margin: 10px;
+    }
 
-.sidenav .closebtn {
-	position: absolute;
-	top: 0;
-	right: 25px;
-	font-size: 36px;
-	margin-left: 50px;
+    .closebtn {
+        position: absolute;
+        top: 0;
+        right: 25px;
+        font-size: 36px;
+        margin-left: 50px;
+    }
 }

@@ -1,72 +1,67 @@
 @import url('https://fonts.googleapis.com/css?family=Montserrat');
-
-:root {
-    --primaryColor: #f09d51;
-    --mainWhite: #fff;
-    --mainBlack: #222;
-    --mainGrey: #ececec;
-    --mainSpacing: 0.1rem;
-    --mainTransition: all 0.3s linear;
-}
+@import "conf";
 
 /*-------------------------------- END ----*/
 #body-row {
     margin-left: 0;
     margin-right: 0;
-}
 
-#sidebar-container {
-    min-height: 100vh;
-    background-color: #132644;
-    padding: 0;
-    /* flex: unset; */
-}
+    #sidebar-container {
+        min-height: 100vh;
+        background-color: $color_sidenav_background;
+        padding: 0;
+    }
 
-.sidebar-expanded {
-    width: 230px;
-}
+    .sidebar-expanded {
+        width: 230px;
+    }
 
-.sidebar-collapsed {
-    /*width: 60px;*/
-    width: 100px;
+    .sidebar-collapsed {
+        width: 100px;
+    }
 }
 
 /* ----------| Menu item*/
-#sidebar-container .list-group a {
-    height: 50px;
-    color: white;
-}
+#sidebar-container {
+    .list-group {
+        a {
+            height: 50px;
+            color: white;
+        }
 
-/* ----------| Submenu item*/
-#sidebar-container .list-group li.list-group-item {
-    background-color: #132644;
-}
+        li {
+            .list-group-item {
+                background-color: $color_sidenav_background;
+            }
+        }
 
-#sidebar-container .list-group .sidebar-submenu a {
-    height: 45px;
-    padding-left: 30px;
-}
+        .sidebar-submenu {
+            font-size: 0.9rem;
 
-.sidebar-submenu {
-    font-size: 0.9rem;
+            a {
+                height: 45px;
+                padding-left: 30px;
+            }
+        }
+    }
 }
 
 /* ----------| Separators */
 .sidebar-separator-title {
-    background-color: #132644;
+    background-color: $color_sidenav_background;
     height: 35px;
 }
 
 .sidebar-separator {
-    background-color: #132644;
+    background-color: $color_sidenav_background;
     height: 25px;
 }
 
 .logo-separator {
-    background-color: #132644;
+    background-color: $color_sidenav_background;
     height: 60px;
 }
 
 a.bg-dark {
-    background-color: #132644 !important;
+    background-color: $color_sidenav_background !important;
 }

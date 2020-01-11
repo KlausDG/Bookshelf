@@ -44,51 +44,31 @@
                 <button class="btn btn-light menu-btn" id="filtro_livros" value="Livros"><span>Livros</span></button>
                 <button class="btn btn-light menu-btn" id="filtro_mangas" value="Mangás"><span>Mangás</span></button>
             </div>
-            <div class="nav-item-three d-flex">
-                <button class="btn btn-light" id="cart-btn" style="margin-right: 3rem; width: 7rem;"
-                    onclick="showCart();"><img src="images/shopping-cart.png" alt="shopping cart"
-                        style="height: 40px;"></button>
-                <button class="btn btn-primary" data-toggle="modal" data-target="#login-modal"
-                    style="width: 7rem;">Login</button>
-                <!-- <a href="" style="background-image: url(images/shopping-cart.png); width: 200px; height: 100%;"></a> -->
+            
+            <div class="nav-item-three ml-1 d-flex">
+                <input class="form-control mr-2" id="search-input" type="text" placeholder="Search"
+                    aria-label="Search">
+                <button class="btn btn-outline-success btn-rounded m-0" id="search-btn">Procurar</button>
             </div>
         </nav>
         <!-- FIM HEADER -->
 
         <!-- MAIN -->
-        <div class="cabecalho" style="padding: 1rem 0 1rem 2rem;">
-            <h4 id="cabecalho-text"></h4>
-            <div class="d-flex align-items-center ml-auto" id="filtro-adv">
-                <h5 style="margin: 0 15px 0 0;">Odernar por: </h5>
-                <!-- <form action="" method="GET" class="d-flex align-items-center"> -->
-                <!-- <input type="hidden" name="item-show-method" id="item-show-method" value=""> -->
-                <select class="custom-form form-control custom-select custom-select-sm dropdown" id="lingua"
-                    name="input-lingua">
-                    <option value="a-z">A-Z</option>
-                    <option value="z-a">Z-A</option>
-                    <option value="menorVal">Menor Valor</option>
-                    <option value="maiorVal">Maior Valor</option>
-                </select>
-                <button class="btn btn-link" id="item-thumb">
-                    <i class="fas fa-th fa-lg" style="height: 100%; width: 100%;"></i>
-                </button>
-                <button class="btn btn-link" id="item-list">
-                    <i class="fas fa-th-list fa-lg" style="height: 100%; width: 100%;"></i>
-                </button>
-                <!-- </form> -->
+        <div id="cabecalho" style="padding: 1rem 0 1rem 2rem;">
 
-            </div>
         </div>
 
         <div class="item-container" id="mostra">
 
         </div>
 
+        <div id="current-values-container">
+
+        </div>
+
         <!-- FOOOTER -->
         <footer class="pt-2">
-            <div class="text-dark mt-2 " style="font-size: 20px; text-align: center;">
-                <p>© Klaus D. Galm</p>
-            </div>
+            <button class="btn btn-light" data-toggle="modal" data-target="#login-modal" style="width: 10rem;">© Klaus D. Galm</button>
         </footer>
         <!-- FIM FOOOTER -->
     </div>
@@ -133,7 +113,6 @@
                 <i class="fa fa-window-close"></i>
             </span>
             <h2>Seu Carrinho</h2>
-            <!-- HARDCODED ITEM -->
             <div class="cart-content">
                 <!-- cart item -->
 
@@ -142,6 +121,7 @@
             <div class="card-footer">
                 <h3>total : $ <span class="cart-total">0</span></h3>
                 <button class="clear-cart cart-btn">clear cart</button>
+                <button class="clear-cart cart-btn">Enviar Pedido</button>
             </div>
         </div>
     </div>
@@ -151,68 +131,77 @@
 
         $(document).ready(function () {
             // Mostra todo os itens quando carregar a pagina.
-            $('#cabecalho-text').html("Todos");
+            displayItems("Todos", "thumb", "a-z", "");
+
+            //Filtra os itens pelo click nos botões.
+            $('.menu-btn').click(function () {
+                let currentSort = $('#current-values').attr('data-sort-type');
+                let currentDisplay = $('#current-values').attr('data-display-type');
+                displayItems($(this).attr("value"), currentDisplay, currentSort, "");
+            });
+        });
+
+        //Mostra os itens em modo lista
+        $(document).on('click', '#item-list', function () {
+            let currentSort = $('#current-values').attr('data-sort-type');
+            let currentFilter = $('#current-values').attr('data-filter-type');
+            displayItems(currentFilter, "list", currentSort, "");
+        });
+        //Mostra os itens em modo thumbnail
+        $(document).on('click', '#item-thumb', function () {
+            let currentSort = $('#current-values').attr('data-sort-type');
+            let currentFilter = $('#current-values').attr('data-filter-type');
+            displayItems(currentFilter, "thumb", currentSort, "");
+        });
+
+        $(document).on('click', '#search-btn', function () {
+            let currentSort = $('#current-values').attr('data-sort-type');
+            let currentFilter = $('#current-values').attr('data-filter-type');
+            let currentDisplay = $('#current-values').attr('data-display-type');
+            displayItems(currentFilter, currentDisplay, currentSort, $('#search-input').val());
+        });
+
+        //Função ajax que mostra os itens
+        function displayItems(f, d, s, search) {
+            console.log(search);
             $.ajax({
                 url: "controller-items.php",
                 method: "POST",
                 data: {
-                    value: "SELECT * FROM livro;",
-                    // type: $('#item-show-method').attr("value")
+                    filter: f,
+                    dispay: d,
+                    sort: s,
+                    search: search
                 },
                 success: function (data) {
-                    $('#mostra').html(data);
+                    var result = data.split("*");
+                    $('#cabecalho').html(result[0]);
+                    $('#filtro-adv').html(result[1]);
+                    $('#mostra').html(result[2]);
+                    $('#current-values-container').html(result[3]);
                 }
             });
+        }
 
-            //Filtra os itens pelo click nos botões.
-            $('.menu-btn').click(function () {
-                $('#cabecalho-text').html($(this).attr("value"));
-
-                $.ajax({
-                    url: "controller-items.php",
-                    method: "POST",
-                    data: {
-                        value: $(this).attr("value"),
-                        type: "thumb"
-                    },
-                    success: function (data) {
-                        $('#mostra').html(data);
-                    }
-                });
+        //Função ajax que exibe os detalhes do item.
+        function detalhesAjax(element) {
+            target = element.parentNode.parentNode;
+            var id = target.getAttribute('id');
+            $.ajax({
+                url: "controller-item-details.php",
+                method: "POST",
+                data: {
+                    value: id
+                },
+                success: function (data) {
+                    var result = data.split("*");
+                    $('#cabecalho-text').html(result[0]);
+                    $('#filtro-adv').html(result[1]);
+                    $('#mostra').html(result[2]);
+                }
             });
+        }
 
-            $('#item-thumb').click(function () {
-                $.ajax({
-                    url: "controller-items.php",
-                    method: "POST",
-                    data: {
-                        value: "SELECT * FROM livro;",
-                        type: "thumb"
-                    },
-                    success: function (data) {
-                        $('#mostra').html(data);
-                    }
-                });
-            });
-
-
-            $('#item-list').click(function () {
-                $.ajax({
-                    url: "controller-items.php",
-                    method: "POST",
-                    data: {
-                        value: "SELECT * FROM livro;",
-                        type: "list"
-                    },
-                    success: function (data) {
-                        $('#mostra').html(data);
-                    }
-                });
-            });
-
-
-
-        });
         //Muda o modo de exibição
         function mudaList() {
             elements = document.querySelectorAll('.product-entry-thumb');
@@ -234,51 +223,27 @@
 
         //Adiciona itens ao carrinho
         function addCart(element) {
-            console.log("Clickou");
-            $.ajax({
-                url: "controller-cart-items.php",
-                method: "POST",
-                data: {
-                    id: $(element).attr("data-product-id"),
-                    title: $(element).attr("data-product-title"),
-                    price: $(element).attr("data-product-price"),
-                    image: $(element).attr("data-product-image")
-                },
-                success: function (data) {
-                    console.log(data);
-                    $('.cart-content').append(data);
-                }
-            });
+            let id = $(element).attr("data-product-id");
+            if ($('.cart-content').find('#' + id).length) {
+                alert('Esse item já está no seu carrinho.');
+            } else {
+                $.ajax({
+                    url: "controller-cart-items.php",
+                    method: "POST",
+                    data: {
+                        id: $(element).attr("data-product-id"),
+                        title: $(element).attr("data-product-title"),
+                        price: $(element).attr("data-product-price"),
+                        image: $(element).attr("data-product-image")
+                    },
+                    success: function (data) {
+                        console.log(data);
+                        $('.cart-content').append(data);
+                    }
+                });
+            }
         };
 
-        //Exibe os detalhes do item.
-        function detalhesAjax(element) {
-            target = element.parentNode.parentNode;
-            var id = target.getAttribute('id');
-            $.ajax({
-                url: "controller-item-details.php",
-                method: "POST",
-                data: {
-                    value: id
-                },
-                success: function (data) {
-                    var result = data.split("*");
-                    console.log(result[1]);
-                    $('#cabecalho-text').html(result[1]);
-                    $('#mostra').html(result[0]);
-                }
-            });
-        }
-
-
-        // const cartBtn = document.getElementById('cart-btn');
-        // const closeCartBtn = document.querySelector('.close-cart');
-        // const clearCartBtn = document.querySelector('.clear-cart');
-
-        // const cartItems = document.querySelector('.cart-items');
-        // const cartTotal = document.querySelector('.cart-total');
-
-        // const productsDOM = document.querySelector('.products-center');
     </script>
     <script src="js/main.js"></script>
 

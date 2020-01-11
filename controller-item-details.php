@@ -68,7 +68,10 @@ if (mysqli_num_rows($result) > 0) {
     
     $retorno_titulo = "$titulo<span> ($idioma)</span>";
 
-    $retorno .= "<div class='image-container product-entry-full'>";
+    $retorno_filtro = " ";
+
+    $retorno .= "<h4 id='cabecalho-text'></h4>";
+    $retorno .= "<div class='product-entry-full'>";
     $retorno .= "    <div class='product-img-full'";
     $retorno .= "        style='background-image: url(images/covers/$foto_capa.jpg);'>";
     $retorno .= "    </div>";
@@ -83,9 +86,9 @@ if (mysqli_num_rows($result) > 0) {
     $retorno .= "        <span>Compare o preço:</span>";
     $retorno .= "        <a href='$link_amazon' target='_blank'><img class='w-100' src='images/amazon_logo.svg' alt='amazon-logo'></a>";
     $retorno .= "    </div>";
-    $retorno .= "    <div class='cart-button'>";
-    $retorno .= "        <button class='btn btn-success' onclick='addToCart();'>Adicionar ao carrinho</button>";
-    $retorno .= "    </div>";
+    // $retorno .= "    <div class='cart-button'>";
+    // $retorno .= "        <button class='btn btn-success' onclick='addToCart();'>Adicionar ao carrinho</button>";
+    // $retorno .= "    </div>";
     $retorno .= "</div>";
     $retorno .= "<div class='content-divider'>";
     $retorno .= "    <div class='details-container'>";
@@ -111,9 +114,8 @@ if (mysqli_num_rows($result) > 0) {
     $retorno .= "    </div>";
     $retorno .= "</div>";
 
-    $retorno .= "*" . $retorno_titulo;
+    echo $retorno_titulo . "*" . $retorno_filtro . "*" . $retorno;
 
-    echo $retorno;
 } else {
     echo "Não Encontrado.";
 }

@@ -12,73 +12,110 @@ function getNome($link, $table, $field, $value)
     return $array['nome'];
 }
 
+//Values => Query - Arrays
+$display_types = array(
+    'thumb' => "SELECT id_book, title, image_cover, preco_venda FROM livro WHERE for_sale = 1 ",
+    'list' => "SELECT * FROM livro WHERE for_sale = 1 "
+);
+
+$filter_types = array(
+    'HQs' => "AND id_category = 1 ",
+    'Livros' => "AND id_category = 2 ",
+    'Mangás' => "AND id_category = 3 ",
+    'Todos' => ""
+);
+
+$sort_types = array(
+    'a-z' => 'ORDER BY title ASC;',
+    'z-a' => 'ORDER BY title DESC;',
+    'menorVal' => 'ORDER BY preco_venda ASC;',
+    'maiorVal' => 'ORDER BY preco_venda DESC;'
+);
+//END of Values => Query - Arrays
+
 //Variáveis para uso futuro
 $preco_antigo = "";
 $em_promo = "";
 $novo_item = "";
+//END of Variáveis para uso futuro
 
-$query = "";
+//Get values
+$display = $_POST['dispay'];
+$filter  = $_POST['filter'];
+$sort    = $_POST['sort'];
+$search  = $_POST['search'];
+//END of Get values
 
-if (isset($_POST['type'])) {
-    $display_type = $_POST['type'];
+if ($search != "") {
+    $search_value = "AND title LIKE '$search%' ";
+    $sql = $display_types[$display] . $search_value . $sort_types[$sort];
 } else {
-    $display_type = "thumb";
-}
-
-if ($display_type == "thumb") {
-    $query = "SELECT id_book, title, image_cover, preco_venda FROM livro";
-} 
-if ($display_type == "list") {
-    $query = "SELECT id_book, title, id_author, pusblish_date, nr_pages, id_publisher, image_cover, preco_venda FROM livro";
-}
-
-if ($_POST['value'] == "Todos") {
-    $sql = $query . ";";
-} elseif ($_POST['value'] == "HQs") {
-    $sql = $query . " WHERE id_category = 1";
-} elseif ($_POST['value'] == "Livros") {
-    $sql = $query . " WHERE id_category = 2";
-} elseif ($_POST['value'] == "Mangás") {
-    $sql = $query . " WHERE id_category = 3";
-} else {
-    $sql = $_POST['value'];
+    $sql = $display_types[$display] . $filter_types[$filter] . $sort_types[$sort];
 }
 
 $result   = mysqli_query($link, $sql);
+$rows     = mysqli_num_rows($result);
+// $array    = mysqli_fetch_assoc($result);
 
-if (mysqli_num_rows($result) > 0) {
+$retorno_titulo = "";
+$retorno_filtro = "";
+$retorno        = "";
+
+if ($search != "" && $rows > 0) {
+    $retorno_titulo = "<h4 id='cabecalho-text'>Bucsa ( $rows )</h4><div id='filtro-adv' class='ml-auto'></div>";
+} else {
+    $retorno_titulo = "<h4 id='cabecalho-text'>$filter ( $rows )</h4><div id='filtro-adv' class='ml-auto'></div>";
+}
+
+$retorno_filtro .= "<p id='sortby' style='margin: 0 15px 0 0; width 10rem;'>Odernar por: </p>";
+$retorno_filtro .= "<select class='custom-form form-control custom-select custom-select-sm dropdown' id='sort-options' name='sort-options'>";
+$retorno_filtro .= "    <option value='a-z' " . ($sort == 'a-z' ? 'selected' : '') . ">A-Z</option>";
+$retorno_filtro .= "    <option value='z-a' " . ($sort == 'z-a' ? 'selected' : '') . ">Z-A</option>";
+$retorno_filtro .= "    <option value='menorVal' " . ($sort == 'menorVal' ? 'selected' : '') . ">Menor Preço</option>";
+$retorno_filtro .= "    <option value='maiorVal' " . ($sort == 'maiorVal' ? 'selected' : '') . ">Maior Preço</option>";
+$retorno_filtro .= "</select>";
+$retorno_filtro .= "<button class='btn btn-link' id='item-thumb'>";
+$retorno_filtro .= "    <i class='fas fa-th fa-lg' style='height: 100%; width: 100%;'></i>";
+$retorno_filtro .= "</button>";
+$retorno_filtro .= "<button class='btn btn-link' id='item-list'>";
+$retorno_filtro .= "    <i class='fas fa-th-list fa-lg' style='height: 100%; width: 100%;'></i>";
+$retorno_filtro .= "</button>";
+
+$retorno_values = "<div id='current-values' data-display-type='$display' data-filter-type='$filter' data-sort-type='$sort'></div>";
+
+if ($rows > 0) {
     while ($array = mysqli_fetch_assoc($result)) {
         $id         = $array['id_book'];
-        $titulo     = $array['title'];
+        $filter     = $array['title'];
         $imagem_url = $array['image_cover'];
         $preco      = $array['preco_venda'];
 
-        if ($display_type == "thumb") {
-            echo "<div class='col-sm-3 col-xs-6 text-center' id='item-$id'>";
-            echo "    <div class='product-entry-thumb'><a class='item-link' onclick=detalhesAjax(this);>";
-            echo "        <div class='product-img' style='background-image: url(images/covers/$imagem_url);'>";
+        if ($display == "thumb") {
+            $retorno .= "<div class='col-sm-2 col-xs-6 text-center' id='item-$id'>";
+            $retorno .= "    <div class='product-entry-thumb'><a class='item-link' onclick=detalhesAjax(this);>";
+            $retorno .= "        <div class='product-img' style='background-image: url(images/covers/$imagem_url);'>";
             if ($em_promo != "") {
-                echo "            <p class='tag'><span class='sale'>Sale</span></p>";
+                $retorno .= "            <p class='tag'><span class='sale'>Sale</span></p>";
             } elseif ($novo_item != "") {
-                echo "            <p class='tag'><span class='new'>New</span></p>";
+                $retorno .= "            <p class='tag'><span class='new'>New</span></p>";
             }
-            echo "        </div></a>";
-            echo "        <div class='desc'>";
-            echo "            <h3><strong>$titulo</strong></h3>";
-            echo "            <p class='price'><span>R$$preco</span>";
+            $retorno .= "        </div></a>";
+            $retorno .= "        <div class='desc'>";
+            $retorno .= "            <h5><strong>$filter</strong></h5>";
+            $retorno .= "            <p class='price'><span>R$$preco</span>";
             if ($preco_antigo != "") {
-                echo "                <span class='sale'>R$300.00</span>";
+                $retorno .= "                <span class='sale'>R$300.00</span>";
             }
-            echo "            </p>";
-            echo "        </div>";
-            echo "        <div class='cart-button'>";
-            echo "            <button class='btn btn-success add-cart' data-product-id='$id' data-product-title='$titulo' data-product-price='$preco' data-product-image='$imagem_url' onclick='addCart(this)'>Adicionar ao carrinho</button>";
-            echo "        </div>";
-            echo "    </div>";
-            echo "</div>";
+            $retorno .= "            </p>";
+            $retorno .= "        </div>";
+            // $retorno .= "        <div class='cart-button'>";
+            // $retorno .= "            <button class='btn btn-success add-cart' data-product-id='$id' data-product-title='$filter' data-product-price='$preco' data-product-image='$imagem_url' onclick='addCart(this)'>Adicionar ao carrinho</button>";
+            // $retorno .= "        </div>";
+            $retorno .= "    </div>";
+            $retorno .= "</div>";
         }
 
-        if ($display_type == "list") {
+        if ($display == "list") {
             $paginas = $array['nr_pages'];
             //Pega a data e transforma no formato brasileiro
             $dta = date("d/m/Y", strtotime($array['publish_date']));
@@ -87,36 +124,41 @@ if (mysqli_num_rows($result) > 0) {
             //PEGA O NOME DA EDITORA NO BANCO
             $editora = getNome($link, "editora", "id_publisher", $array['id_publisher']);
 
-            echo "<div class='col-sm-4 col-xs-6' id='item-$id'>";
-            echo "    <div class='product-entry-list'><a class='item-link' onclick=detalhesAjax(this);>";
-            echo "        <div class='product-img' style='background-image: url(images/covers/$imagem_url);'>";
+            $retorno .= "<div class='col-sm-4 col-xs-6' id='item-$id'>";
+            $retorno .= "    <div class='product-entry-list'><a class='item-link' onclick=detalhesAjax(this);>";
+            $retorno .= "        <div class='product-img' style='background-image: url(images/covers/$imagem_url);'>";
             if ($em_promo != "") {
-                echo "            <p class='tag'><span class='sale'>Sale</span></p>";
+                $retorno .= "            <p class='tag'><span class='sale'>Sale</span></p>";
             } elseif ($novo_item != "") {
-                echo "            <p class='tag'><span class='new'>New</span></p>";
+                $retorno .= "            <p class='tag'><span class='new'>New</span></p>";
             }
-            echo "        </div></a>";
-            echo "        <div class='desc'>";
-            echo "            <h2><strong>$titulo</strong></h2>";
-            echo "            <h3><strong>Autor: </strong>$autor</h3>";
-            echo "            <h3><strong>Editora: </strong>$editora<span> ($dta)</span></h3>";
-            echo "            <h3><strong>$paginas</strong> Páginas</h3>";
-            echo "            <div class='price'>";
-            echo "               <div class='price-text'><p>R$$preco</p></div>";
+            $retorno .= "        </div></a>";
+            $retorno .= "        <div class='desc'>";
+            $retorno .= "            <h2><strong>$filter</strong></h2>";
+            $retorno .= "            <h3><strong>Autor: </strong>$autor</h3>";
+            $retorno .= "            <h3><strong>Editora: </strong>$editora<span> ($dta)</span></h3>";
+            $retorno .= "            <h3><strong>$paginas</strong> Páginas</h3>";
+            $retorno .= "            <div class='price'>";
+            $retorno .= "               <div class='price-text'><p>R$$preco</p></div>";
             if ($preco_antigo != "") {
-                echo "                <span class='sale'>R$300.00</span>";
+                $retorno .= "                <span class='sale'>R$300.00</span>";
             }
-            echo "                <div class='cart-button'>";
-            echo "                    <button class='btn btn-success add-cart' data-product-id='$id' data-product-title='$titulo' data-product-price='$preco' data-product-image='$imagem_url' onclick='addCart(this)'><i class='fas fa-shopping-cart'></i></button>";
-            echo "                </div>";
-            echo "            </div>";
-            echo "        </div>";
-            echo "    </div>";
-            echo "</div>";
+            // $retorno .= "                <div class='cart-button'>";
+            // $retorno .= "                    <button class='btn btn-success add-cart' data-product-id='$id' data-product-title='$filter' data-product-price='$preco' data-product-image='$imagem_url' onclick='addCart(this)'><i class='fas fa-shopping-cart'></i></button>";
+            // $retorno .= "                </div>";
+            $retorno .= "            </div>";
+            $retorno .= "        </div>";
+            $retorno .= "    </div>";
+            $retorno .= "</div>";
         }
     }
+    echo $retorno_titulo . "*" . $retorno_filtro . "*" . $retorno . "*" . $retorno_values;
+    // echo $retorno_filtro . "*" . $retorno;
 } else {
-    echo "0 results";
+    $retorno = "Nenhum item encontrado.";
+    echo $retorno_titulo . "*" . $retorno_filtro . "*" . $retorno . "*" . $retorno_values;
+    // echo $retorno_filtro . "*" . $retorno;
 }
+
 
 mysqli_close($link);
